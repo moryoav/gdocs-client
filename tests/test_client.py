@@ -3,6 +3,7 @@
 import json
 from unittest.mock import MagicMock, patch
 
+from google.oauth2.credentials import Credentials
 from httplib2 import Response
 import pytest
 
@@ -13,6 +14,7 @@ import gdocs_client as api
 def http_client() -> MagicMock:
     """Use the real discovery client while replacing only its HTTP transport."""
     client = MagicMock()
+    client.credentials = Credentials("access-token")
     client.request.return_value = (
         Response({"status": "200", "content-type": "application/json"}),
         b'{"documentId": "test-document", "title": "Home Assistant"}',
