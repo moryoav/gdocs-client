@@ -1,0 +1,62 @@
+[build-system]
+requires = ["hatchling>=1.27"]
+build-backend = "hatchling.build"
+
+[project]
+name = "gdocs-client"
+version = "0.1.0"
+description = "A small Google Docs client for creating documents and appending and reading text"
+readme = "README.md"
+requires-python = ">=3.11"
+license = "Apache-2.0"
+license-files = ["LICENSE", "NOTICE"]
+authors = [{ name = "moryoav" }]
+dependencies = ["google-api-python-client>=2.71.0,<3"]
+
+[project.urls]
+Source = "https://github.com/moryoav/gdocs-client"
+Issues = "https://github.com/moryoav/gdocs-client/issues"
+
+[project.optional-dependencies]
+test = [
+  "build>=1.2",
+  "mypy>=2.4",
+  "pytest>=9",
+  "pytest-cov>=7",
+  "ruff==0.17.0",
+  "twine>=6",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/gdocs_client"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "--strict-markers"
+
+[tool.coverage.run]
+branch = true
+source = ["gdocs_client"]
+
+[tool.coverage.report]
+fail_under = 100
+show_missing = true
+
+[tool.ruff]
+target-version = "py311"
+line-length = 88
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "ASYNC"]
+
+[tool.ruff.lint.isort]
+force-sort-within-sections = true
+
+[tool.mypy]
+python_version = "3.11"
+strict = true
+disallow_untyped_calls = false
+
+[[tool.mypy.overrides]]
+module = ["google.*", "googleapiclient.*", "httplib2.*"]
+ignore_missing_imports = true
